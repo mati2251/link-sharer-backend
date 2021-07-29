@@ -1,6 +1,6 @@
 package io.mateusz.linksharer.linkscontainer
 
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaRepository
 
-interface LinksContainerRepository: CrudRepository<LinksContainer, Long> {
+interface LinksContainerRepository: JpaRepository<LinksContainer, Long> {
 }
