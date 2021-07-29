@@ -1,7 +1,8 @@
 package io.mateusz.linksharer.link
 
 import io.mateusz.linksharer.linkscontainer.LinksContainer
-import java.util.*
+import io.mateusz.linksharer.linkscontainer.LinksContainerAssembler
+import org.springframework.hateoas.EntityModel
 import javax.persistence.*
 
 @Entity
@@ -28,12 +29,15 @@ class Link {
         this.linksContainer = linksContainer
     }
 
-    fun getLinksContainer(): Map<String, Any> {
-        return mapOf<String, Any>(
-            Pair("id", this.linksContainer.id),
-            Pair("title", this.linksContainer.title),
-            Pair("description", this.linksContainer.description)
-        )
+    fun getLinksContainer(): EntityModel<LinksContainer> {
+        val assembler = LinksContainerAssembler()
+        val tmpLinksContainer = this.linksContainer
+        tmpLinksContainer.setLinks(null)
+        return assembler.toModel(tmpLinksContainer)
+    }
+
+    fun getContainerId(): Long {
+        return this.linksContainer.id
     }
 
     override fun equals(other: Any?): Boolean {

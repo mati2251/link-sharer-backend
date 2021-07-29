@@ -10,7 +10,8 @@ class LinksContainerAssembler : RepresentationModelAssembler<LinksContainer, Ent
     override fun toModel(linksContainer: LinksContainer): EntityModel<LinksContainer> {
         return EntityModel.of(
             linksContainer,
-            linkTo<LinksContainerController> {getLinksContainers()}.withRel("all")
+            linkTo<LinksContainerController> {getLinksContainers()}.withRel("all"),
+            linkTo<LinksContainerController> {getLinksContainer(linksContainer.id)}.withSelfRel()
         )
     }
 

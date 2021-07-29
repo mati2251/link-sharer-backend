@@ -1,6 +1,7 @@
 package io.mateusz.linksharer.link
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.hateoas.EntityModel
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,14 +14,17 @@ class LinkController {
     @Autowired
     private lateinit var linkService: LinkService
 
+    @Autowired
+    private lateinit var linkAssembler: LinkAssembler
+
     @GetMapping
     fun getLinks(): MutableList<Link> {
         return linkService.getLinks()
     }
 
     @GetMapping("/{id}")
-    fun getLinksById(@PathVariable id: Long): Link {
-        return linkService.getLinkById(id);
+    fun getLinksById(@PathVariable id: Long): EntityModel<Link> {
+        return linkAssembler.toModel(linkService.getLinkById(id))
     }
 
     @GetMapping("container/{id}")

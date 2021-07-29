@@ -1,6 +1,10 @@
 package io.mateusz.linksharer.linkscontainer
 
 import io.mateusz.linksharer.link.Link
+import io.mateusz.linksharer.link.LinkAssembler
+import org.springframework.hateoas.EntityModel
+import java.util.stream.Collectors
+import java.util.stream.Stream
 import javax.persistence.*
 
 @Entity
@@ -18,7 +22,7 @@ class LinksContainer() {
     var description: String = ""
 
     @OneToMany(mappedBy = "linksContainer", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    var links: Set<Link> = setOf()
+    private var links: Set<Link>? = null
 
     constructor(title: String, description: String, links: Set<Link>) : this() {
         this.title = title
@@ -29,6 +33,15 @@ class LinksContainer() {
     constructor(title: String, description: String) : this() {
         this.title = title
         this.description = description
+    }
+
+    fun getLinks(): List<EntityModel<Link>>? {
+        val assembler = LinkAssembler()
+        return this.links?.stream()?.map(assembler::toModel)?.collect(Collectors.toList())
+    }
+
+    fun setLinks(links: Set<Link>?){
+        this.links = links
     }
 
     override fun equals(other: Any?): Boolean {
