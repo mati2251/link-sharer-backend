@@ -12,4 +12,8 @@ class LinksContainerService {
     fun getLinksContainers(): MutableIterable<LinksContainer> {
         return linksContainerRepository.findAll()
     }
+
+    fun getLinksContainer(id: Long): LinksContainer{
+        return linksContainerRepository.getById(id)
+    }
 }

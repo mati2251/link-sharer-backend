@@ -1,6 +1,7 @@
 package io.mateusz.linksharer.link
 
 import io.mateusz.linksharer.linkscontainer.LinksContainer
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -19,7 +20,7 @@ class Link {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "container_id", nullable = false)
-    var linksContainer: LinksContainer = LinksContainer()
+    private var linksContainer: LinksContainer = LinksContainer()
 
     constructor(title: String, url: String, linksContainer: LinksContainer) {
         this.title = title
@@ -27,8 +28,12 @@ class Link {
         this.linksContainer = linksContainer
     }
 
-    fun getLinksContainer(): Long{
-        return this.linksContainer.id
+    fun getLinksContainer(): Map<String, Any> {
+        return mapOf<String, Any>(
+            Pair("id", this.linksContainer.id),
+            Pair("title", this.linksContainer.title),
+            Pair("description", this.linksContainer.description)
+        )
     }
 
     override fun equals(other: Any?): Boolean {
