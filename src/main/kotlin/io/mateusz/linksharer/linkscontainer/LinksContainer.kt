@@ -20,13 +20,13 @@ class LinksContainer() {
     @OneToMany(mappedBy = "linksContainer", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     var links: Set<Link> = setOf()
 
-    constructor(title: String, description: String, links: Set<Link>): this() {
+    constructor(title: String, description: String, links: Set<Link>) : this() {
         this.title = title
         this.description = description
         this.links = links
     }
 
-    constructor(title: String, description: String): this() {
+    constructor(title: String, description: String) : this() {
         this.title = title
         this.description = description
     }

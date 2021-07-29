@@ -14,17 +14,21 @@ class Link {
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "link_sequence")
     var id: Long = 0
-    var name: String = ""
+    var title: String = ""
     var url: String = ""
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "container_id", nullable = false)
     var linksContainer: LinksContainer = LinksContainer()
 
-    constructor(name: String, url: String, linksContainer: LinksContainer) {
-        this.name = name
+    constructor(title: String, url: String, linksContainer: LinksContainer) {
+        this.title = title
         this.url = url
         this.linksContainer = linksContainer
+    }
+
+    fun getLinksContainer(): Long{
+        return this.linksContainer.id
     }
 
     override fun equals(other: Any?): Boolean {
@@ -34,7 +38,7 @@ class Link {
         other as Link
 
         if (id != other.id) return false
-        if (name != other.name) return false
+        if (title != other.title) return false
         if (url != other.url) return false
 
         return true
@@ -42,12 +46,12 @@ class Link {
 
     override fun hashCode(): Int {
         var result = id.hashCode()
-        result = 31 * result + name.hashCode()
+        result = 31 * result + title.hashCode()
         result = 31 * result + url.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "Link(id=$id, name='$name', url='$url')"
+        return "Link(id=$id, title='$title', url='$url')"
     }
 }
