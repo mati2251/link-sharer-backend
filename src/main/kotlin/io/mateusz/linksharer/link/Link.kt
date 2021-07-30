@@ -29,7 +29,7 @@ class Link {
         this.linksContainer = linksContainer
     }
 
-    constructor(title: String, url: String){
+    constructor(title: String, url: String) {
         this.title = title
         this.url = url
     }
@@ -41,7 +41,7 @@ class Link {
         return assembler.toModel(tmpLinksContainer)
     }
 
-    fun setLinksContainer(linksContainer: LinksContainer){
+    fun setLinksContainer(linksContainer: LinksContainer) {
         this.linksContainer = linksContainer
     }
 
@@ -63,10 +63,14 @@ class Link {
     }
 
     override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + url.hashCode()
-        return result
+        return try {
+            var result = id.hashCode()
+            result = 31 * result + title.hashCode()
+            result = 31 * result + url.hashCode()
+            result
+        } catch (ex: NullPointerException){
+            0
+        }
     }
 
     override fun toString(): String {
