@@ -29,11 +29,20 @@ class Link {
         this.linksContainer = linksContainer
     }
 
+    constructor(title: String, url: String){
+        this.title = title
+        this.url = url
+    }
+
     fun getLinksContainer(): EntityModel<LinksContainer> {
         val assembler = LinksContainerAssembler()
         val tmpLinksContainer = this.linksContainer
         tmpLinksContainer.setLinks(null)
         return assembler.toModel(tmpLinksContainer)
+    }
+
+    fun setLinksContainer(linksContainer: LinksContainer){
+        this.linksContainer = linksContainer
     }
 
     fun getContainerId(): Long {
