@@ -6,6 +6,7 @@ import io.mateusz.linksharer.linkscontainer.LinksContainerRepository
 import io.mateusz.linksharer.linkscontainer.LinksContainerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class LinkService {
@@ -27,13 +28,30 @@ class LinkService {
     }
 
     fun getLinkById(id: Long): Link {
-        return linkRepository.findById(id).orElseThrow{LinkNotFoundException(id)}
+        return linkRepository.findById(id).orElseThrow { LinkNotFoundException(id) }
     }
 
     fun createLink(link: Link, containerId: Long): Link {
         val linksContainer = linksContainerService.getLinksContainer(containerId)
         link.setLinksContainer(linksContainer)
         return linkRepository.save(link)
+    }
+
+    fun createLink(link: Link): Link {
+        return linkRepository.save(link)
+    }
+
+    fun changeLinksContainer(linkId: Long, containerId: Long): Link? {
+        return try {
+            val linksContainer = linksContainerService.getLinksContainer(containerId)
+            val link = linkRepository.findById(linkId).map { link: Link ->
+                link.setLinksContainer(linksContainer)
+                linkRepository.save(link)
+            }.orElseThrow { LinksContainerNotFoundException(containerId) }
+            link
+        } catch (ex: LinksContainerNotFoundException) {
+            null
+        }
 
     }
 }

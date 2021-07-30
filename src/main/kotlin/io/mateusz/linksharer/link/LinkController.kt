@@ -6,8 +6,10 @@ import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.IanaLinkRelations
 import org.springframework.hateoas.server.mvc.linkTo
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.lang.NumberFormatException
 import java.util.stream.Collectors
 
 @RestController
@@ -44,4 +46,24 @@ class LinkController {
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel)
     }
 
+    @PostMapping
+    fun createLink(@RequestBody newLink: Link): ResponseEntity<EntityModel<Link>> {
+        val entityModel = linkAssembler.toModel(linkService.createLink(newLink))
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel)
+    }
+
+    @PutMapping("/{linkId}")
+    fun changeContainerById(@PathVariable linkId: Long, @RequestParam params: Map<String, String>): ResponseEntity<Any> {
+        try {
+            val containerId: Long =
+                params["id"]?.toLong() ?: return ResponseEntity<Any>("id param not found", HttpStatus.BAD_REQUEST)
+            val link = linkService.changeLinksContainer(linkId, containerId)
+                ?: return ResponseEntity<Any>(LinksContainerNotFoundException(containerId), HttpStatus.NOT_FOUND)
+            val entityModel = linkAssembler.toModel(link)
+            return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel)
+        }
+        catch (ex: NumberFormatException){
+            return ResponseEntity<Any>("id param must be number", HttpStatus.BAD_REQUEST)
+        }
+    }
 }
