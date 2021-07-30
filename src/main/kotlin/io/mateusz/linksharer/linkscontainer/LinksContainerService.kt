@@ -20,4 +20,8 @@ class LinksContainerService {
     fun createLinksContainer(linksContainer: LinksContainer): LinksContainer {
         return linksContainerRepository.save(linksContainer)
     }
+
+    fun removeLinksContainer(linksContainer: LinksContainer){
+        linksContainerRepository.delete(linksContainer)
+    }
 }
