@@ -40,12 +40,8 @@ class LinkController {
 
     @PostMapping("container/{id}")
     fun createLink(@RequestBody newLink: Link, @PathVariable id: Long): ResponseEntity<EntityModel<Link>> {
-        try {
-            val entityModel = linkAssembler.toModel(linkService.createLink(newLink, id))
-            return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel)
-        } catch (ex: LinksContainerNotFoundException) {
-            throw ex;
-        }
+        val entityModel = linkAssembler.toModel(linkService.createLink(newLink, id))
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel)
     }
 
 }

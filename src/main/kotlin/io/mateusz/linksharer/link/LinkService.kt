@@ -16,8 +16,6 @@ class LinkService {
     @Autowired
     private lateinit var linksContainerService: LinksContainerService
 
-    @Autowired
-    private lateinit var linksContainerRepository: LinksContainerRepository
 
     fun getLinks(): MutableList<Link> {
         return linkRepository.findAll()
@@ -29,12 +27,11 @@ class LinkService {
     }
 
     fun getLinkById(id: Long): Link {
-        return linkRepository.getById(id)
+        return linkRepository.findById(id).orElseThrow{LinkNotFoundException(id)}
     }
 
     fun createLink(link: Link, containerId: Long): Link {
-        val linksContainer = linksContainerRepository.findById(containerId)
-            .orElseThrow { LinksContainerNotFoundException(containerId) }
+        val linksContainer = linksContainerService.getLinksContainer(containerId)
         link.setLinksContainer(linksContainer)
         return linkRepository.save(link)
 

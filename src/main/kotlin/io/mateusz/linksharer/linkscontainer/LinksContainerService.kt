@@ -13,7 +13,11 @@ class LinksContainerService {
         return linksContainerRepository.findAll()
     }
 
-    fun getLinksContainer(id: Long): LinksContainer{
-        return linksContainerRepository.getById(id)
+    fun getLinksContainer(id: Long): LinksContainer {
+        return linksContainerRepository.findById(id).orElseThrow { LinksContainerNotFoundException(id) }
+    }
+
+    fun createLinksContainer(linksContainer: LinksContainer): LinksContainer {
+        return linksContainerRepository.save(linksContainer)
     }
 }
