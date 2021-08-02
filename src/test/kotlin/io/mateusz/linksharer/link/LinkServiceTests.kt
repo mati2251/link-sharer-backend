@@ -1,4 +1,4 @@
-package io.mateusz.linksharer.services
+package io.mateusz.linksharer.link
 
 import io.mateusz.linksharer.link.Link
 import io.mateusz.linksharer.link.LinkService

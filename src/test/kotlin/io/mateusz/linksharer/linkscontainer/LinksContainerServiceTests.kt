@@ -1,8 +1,5 @@
-package io.mateusz.linksharer.services
+package io.mateusz.linksharer.linkscontainer
 
-import io.mateusz.linksharer.link.LinkService
-import io.mateusz.linksharer.linkscontainer.LinksContainer
-import io.mateusz.linksharer.linkscontainer.LinksContainerService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
