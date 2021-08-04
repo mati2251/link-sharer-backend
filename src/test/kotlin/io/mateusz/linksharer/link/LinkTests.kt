@@ -34,6 +34,6 @@ class LinkTests {
         val link = Link("test", "test")
         val linksContainer = LinksContainer("test", "test")
         link.setLinksContainer(linksContainer)
-        assertThat(link.getContainerId()).isEqualTo(linksContainer.id)
+        assertThat(link.getContainerId()).isEqualTo(linksContainer)
     }
 }

@@ -16,7 +16,8 @@ class LinkServiceTests {
     @Autowired
     private lateinit var linkService: LinkService
 
-    @Autowired lateinit var linksContainerService: LinksContainerService
+    @Autowired
+    lateinit var linksContainerService: LinksContainerService
 
     @Test
     @Throws(Exception::class)
