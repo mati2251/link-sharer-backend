@@ -24,4 +24,9 @@ class LinksContainerService {
     fun deleteLinksContainer(linksContainer: LinksContainer){
         linksContainerRepository.delete(linksContainer)
     }
+
+    fun deleteLinksContainer(id: Long){
+        val container = this.getLinksContainer(id)
+        this.deleteLinksContainer(container)
+    }
 }

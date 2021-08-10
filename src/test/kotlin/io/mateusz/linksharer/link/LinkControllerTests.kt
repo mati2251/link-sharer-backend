@@ -48,6 +48,20 @@ class LinkControllerTests {
 
     @Test
     @Throws(Exception::class)
+    fun getLinksById() {
+        val container = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
+        val link = Link("test", "description", container)
+        linksService.createLink(link)
+        val response: EntityModel<Link> =
+            restTemplate.getForObject("${this.getUrl()}/${link.id}", EntityModelLink::class.java)
+        this.assertLinks(response, link)
+        val id: Long = link.id
+        linksService.deleteLink(id)
+        linksContainerService.deleteLinksContainer(container)
+    }
+
+    @Test
+    @Throws(Exception::class)
     fun getLinksByContainerId() {
         val container = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
         val linkOne = linksService.createLink(Link("test", "test", container))
@@ -59,20 +73,6 @@ class LinkControllerTests {
         assertThat(links[1].content?.id).isEqualTo(linkTwo.id)
         linksService.deleteLink(linkOne)
         linksService.deleteLink(linkTwo)
-        linksContainerService.deleteLinksContainer(container)
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun getLinksById() {
-        val container = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
-        val link = Link("test", "description", container)
-        linksService.createLink(link)
-        val response: EntityModel<Link> =
-            restTemplate.getForObject("${this.getUrl()}/${link.id}", EntityModelLink::class.java)
-        this.assertLinks(response, link)
-        val id: Long = link.id
-        linksService.deleteLink(id)
         linksContainerService.deleteLinksContainer(container)
     }
 
@@ -98,7 +98,7 @@ class LinkControllerTests {
 
     @Test
     @Throws(Exception::class)
-    fun postLinksByContainerId(){
+    fun postLinksByContainerId() {
         val container = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
         val link = Link("test", "url")
         val json = ObjectMapper().writeValueAsString(link).toString()

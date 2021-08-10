@@ -53,7 +53,6 @@ class LinksContainer() {
         if (id != other.id) return false
         if (title != other.title) return false
         if (description != other.description) return false
-        if (links != other.links) return false
 
         return true
     }
