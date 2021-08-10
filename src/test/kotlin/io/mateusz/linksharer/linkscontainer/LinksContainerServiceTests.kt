@@ -24,7 +24,7 @@ class LinksContainerServiceTests {
         val link = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
         assertThat(link.title).contains("test")
         assertThat(link.description).contains("test")
-        linksContainerService.removeLinksContainer(link)
+        linksContainerService.deleteLinksContainer(link)
     }
 
     @Test
@@ -40,6 +40,6 @@ class LinksContainerServiceTests {
         val actuallyLink = linksContainerService.getLinksContainer(link.id)
         assertThat(actuallyLink.title).contains(link.title)
         assertThat(actuallyLink.description).contains(link.description)
-        linksContainerService.removeLinksContainer(link)
+        linksContainerService.deleteLinksContainer(link)
     }
 }

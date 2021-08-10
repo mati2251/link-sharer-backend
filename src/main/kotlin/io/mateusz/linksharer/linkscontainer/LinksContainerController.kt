@@ -1,5 +1,6 @@
 package io.mateusz.linksharer.linkscontainer
 
+import io.mateusz.linksharer.Endpoints
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.EntityModel
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.stream.Collectors
 
 @RestController
-@RequestMapping(path = ["api/v1/container"])
+@RequestMapping(path = [Endpoints.LINKS_CONTAINER_CONTROLLER_PATH])
 class LinksContainerController {
 
     @Autowired

@@ -45,6 +45,11 @@ class LinkService {
         linkRepository.delete(link)
     }
 
+    fun deleteLink(id: Long) {
+        val link = this.getLinkById(id)
+        this.deleteLink(link)
+    }
+
     fun changeLinksContainer(linkId: Long, containerId: Long): Link? {
         return try {
             val linksContainer = linksContainerService.getLinksContainer(containerId)

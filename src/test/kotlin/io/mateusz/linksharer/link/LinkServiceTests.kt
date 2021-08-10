@@ -1,7 +1,5 @@
 package io.mateusz.linksharer.link
 
-import io.mateusz.linksharer.link.Link
-import io.mateusz.linksharer.link.LinkService
 import io.mateusz.linksharer.linkscontainer.LinksContainer
 import io.mateusz.linksharer.linkscontainer.LinksContainerService
 import org.assertj.core.api.Assertions.assertThat
@@ -39,7 +37,7 @@ class LinkServiceTests {
         assertThat(link.title).contains("test")
         assertThat(link.url).contains("test")
         linkService.deleteLink(link)
-        linksContainerService.removeLinksContainer(container)
+        linksContainerService.deleteLinksContainer(container)
     }
 
     @Test
@@ -50,7 +48,7 @@ class LinkServiceTests {
         assertThat(link.title).contains("test")
         assertThat(link.url).contains("test")
         linkService.deleteLink(link)
-        linksContainerService.removeLinksContainer(container)
+        linksContainerService.deleteLinksContainer(container)
     }
 
     @Test
@@ -62,7 +60,7 @@ class LinkServiceTests {
         assertThat(actuallyLink.url).contains(link.url)
         assertThat(actuallyLink.title).contains(link.title)
         linkService.deleteLink(link)
-        linksContainerService.removeLinksContainer(container)
+        linksContainerService.deleteLinksContainer(container)
     }
 
     @Test
@@ -74,7 +72,7 @@ class LinkServiceTests {
         assertThat(actuallyLink.url).contains(link.url)
         assertThat(actuallyLink.title).contains(link.title)
         linkService.deleteLink(link)
-        linksContainerService.removeLinksContainer(container)
+        linksContainerService.deleteLinksContainer(container)
     }
 
     @Test
@@ -89,7 +87,7 @@ class LinkServiceTests {
         assertThat(actuallyLink?.getContainerId()).isEqualTo(secondContainer.id)
         assertThat(actuallyLink?.getContainerId()).isNotEqualTo(link.getContainerId())
         linkService.deleteLink(link)
-        linksContainerService.removeLinksContainer(container)
-        linksContainerService.removeLinksContainer(secondContainer)
+        linksContainerService.deleteLinksContainer(container)
+        linksContainerService.deleteLinksContainer(secondContainer)
     }
 }
