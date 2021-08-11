@@ -75,19 +75,19 @@ class LinkServiceTests {
         linksContainerService.deleteLinksContainer(container)
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun changeLinkContainer() {
-        val container = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
-        val secondContainer = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
-        val link = linkService.createLink(Link("test", "test", container))
-        val actuallyLink = linkService.changeLinksContainer(link.id, secondContainer.id)
-        assertThat(actuallyLink).isNotNull
-        assertThat(link.getContainerId()).isEqualTo(container.id)
-        assertThat(actuallyLink?.getContainerId()).isEqualTo(secondContainer.id)
-        assertThat(actuallyLink?.getContainerId()).isNotEqualTo(link.getContainerId())
-        linkService.deleteLink(link)
-        linksContainerService.deleteLinksContainer(container)
-        linksContainerService.deleteLinksContainer(secondContainer)
-    }
+//    @Test
+//    @Throws(Exception::class)
+//    fun changeLinkContainer() {
+//        val container = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
+//        val secondContainer = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
+//        val link = linkService.createLink(Link("test", "test", container))
+//        val actuallyLink = linkService.changeLinksContainer(link.id, secondContainer.id)
+//        assertThat(actuallyLink).isNotNull
+//        assertThat(link.getContainerId()).isEqualTo(container.id)
+//        assertThat(actuallyLink?.getContainerId()).isEqualTo(secondContainer.id)
+//        assertThat(actuallyLink?.getContainerId()).isNotEqualTo(link.getContainerId())
+//        linkService.deleteLink(link)
+//        linksContainerService.deleteLinksContainer(container)
+//        linksContainerService.deleteLinksContainer(secondContainer)
+//    }
 }

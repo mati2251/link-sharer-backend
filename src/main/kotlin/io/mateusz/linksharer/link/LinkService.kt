@@ -50,15 +50,14 @@ class LinkService {
         this.deleteLink(link)
     }
 
-    fun changeLinksContainer(linkId: Long, containerId: Long): Link? {
-        return try {
-            val linksContainer = linksContainerService.getLinksContainer(containerId)
-            val link = linkRepository.findById(linkId).orElseThrow { LinksContainerNotFoundException(containerId) }
-            link.setLinksContainer(linksContainer)
-            linkRepository.save(link)
-        } catch (ex: LinksContainerNotFoundException) {
-            null
-        }
-
-    }
+//    fun changeLinksContainer(linkId: Long, containerId: Long): Link? {
+//        return try {
+//            val linksContainer = linksContainerService.getLinksContainer(containerId)
+//            val link = linkRepository.findById(linkId).orElseThrow { LinksContainerNotFoundException(containerId) }
+//            link.setLinksContainer(linksContainer)
+//            linkRepository.save(link)
+//        } catch (ex: LinksContainerNotFoundException) {
+//            null
+//        }
+//    }
 }

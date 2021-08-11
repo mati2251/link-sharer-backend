@@ -96,38 +96,38 @@ class LinkControllerTests {
         linksContainerService.deleteLinksContainer(container)
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun postLinksByContainerId() {
-        val container = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
-        val link = Link("test", "url")
-        val json = ObjectMapper().writeValueAsString(link).toString()
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.APPLICATION_JSON
-        val request = HttpEntity(json, headers)
-        val response: EntityModel<Link> = restTemplate.postForObject(
-            "${this.getUrl()}/container/${container.id}",
-            request,
-            EntityModelLink::class.java
-        )
-        assertThat(response.content?.getContainerId()).isEqualTo(container.id)
-        linksService.deleteLink(response.content!!.id)
-        linksContainerService.deleteLinksContainer(container)
-    }
+//    @Test
+//    @Throws(Exception::class)
+//    fun postLinksByContainerId() {
+//        val container = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
+//        val link = Link("test", "url")
+//        val json = ObjectMapper().writeValueAsString(link).toString()
+//        val headers = HttpHeaders()
+//        headers.contentType = MediaType.APPLICATION_JSON
+//        val request = HttpEntity(json, headers)
+//        val response: EntityModel<Link> = restTemplate.postForObject(
+//            "${this.getUrl()}/container/${container.id}",
+//            request,
+//            EntityModelLink::class.java
+//        )
+//        assertThat(response.content?.getContainerId()).isEqualTo(container.id)
+//        linksService.deleteLink(response.content!!.id)
+//        linksContainerService.deleteLinksContainer(container)
+//    }
 
-    @Test
-    @Throws(Exception::class)
-    fun changeContainerById() {
-        val containerOne = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
-        val containerTwo = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
-        var link = linksService.createLink(Link("test", "description", containerOne))
-        restTemplate.put("${this.getUrl()}${link.id}?id=${containerTwo.id}", "")
-        link = linksService.getLinkById(link.id)
-        assertThat(link.getContainerId()).isEqualTo(containerTwo.id)
-        linksService.deleteLink(link)
-        linksContainerService.deleteLinksContainer(containerOne)
-        linksContainerService.deleteLinksContainer(containerTwo)
-    }
+//    @Test
+//    @Throws(Exception::class)
+//    fun changeContainerById() {
+//        val containerOne = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
+//        val containerTwo = linksContainerService.createLinksContainer(LinksContainer("test", "test"))
+//        var link = linksService.createLink(Link("test", "description", containerOne))
+//        restTemplate.put("${this.getUrl()}${link.id}?id=${containerTwo.id}", "")
+//        link = linksService.getLinkById(link.id)
+//        assertThat(link.getContainerId()).isEqualTo(containerTwo.id)
+//        linksService.deleteLink(link)
+//        linksContainerService.deleteLinksContainer(containerOne)
+//        linksContainerService.deleteLinksContainer(containerTwo)
+//    }
 
     fun assertLinks(entityModel: EntityModel<Link>, link: Link) {
         assertThat(entityModel).isNotNull

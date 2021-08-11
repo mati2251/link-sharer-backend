@@ -34,7 +34,7 @@ class LinkController {
         return linkAssembler.toModel(linkService.getLinkById(id))
     }
 
-    @GetMapping("/container/{id}")
+    /*@GetMapping("/container/{id}")
     fun getLinksByContainerId(@PathVariable id: Long): CollectionModel<EntityModel<Link>> {
         val links =
             linkService.getLinksByContainerId(id).stream().map(linkAssembler::toModel).collect(Collectors.toList())
@@ -63,5 +63,5 @@ class LinkController {
         } catch (ex: NumberFormatException) {
             return ResponseEntity<Any>("id param must be number", HttpStatus.BAD_REQUEST)
         }
-    }
+    }*/
 }
