@@ -11,10 +11,11 @@ class LinkAssembler : RepresentationModelAssembler<Link, EntityModel<Link>> {
     override fun toModel(link: Link): EntityModel<Link> {
         return EntityModel.of(
             link,
-            linkTo<LinkController> { getLinksById(link.id) }.withSelfRel(),
             linkTo<LinkController> { getLinks() }.withRel("all"),
-            linkTo<LinksContainerController> { getLinksContainer(link.getContainerId()) }.withRel("container")
-        )
+            linkTo<LinksContainerController> { getLinksContainer(link.getContainerId()) }.withRel("container"),
+            linkTo<LinksContainerController> { getLinks(link.getContainerId()) }.withRel("containerLinks"),
+            linkTo<LinkController> { getLinksById(link.id) }.withSelfRel(),
+            )
     }
 
 }

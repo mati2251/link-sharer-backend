@@ -1,7 +1,7 @@
 package io.mateusz.linksharer.link
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.mateusz.linksharer.Endpoints
+import io.mateusz.linksharer.EntityModelLink
 import io.mateusz.linksharer.linkscontainer.LinksContainer
 import io.mateusz.linksharer.linkscontainer.LinksContainerService
 import org.assertj.core.api.Assertions.assertThat
@@ -13,14 +13,6 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.IanaLinkRelations
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
-import java.util.stream.Collectors
-
-
-class EntityModelLink : EntityModel<Link>()
-class CollectionModelLinks : CollectionModel<EntityModel<Link>>()
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class LinkControllerTests {

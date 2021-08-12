@@ -1,12 +1,16 @@
 package io.mateusz.linksharer.linkscontainer
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.mateusz.linksharer.link.Link
 import io.mateusz.linksharer.link.LinkAssembler
+import io.mateusz.linksharer.link.LinkNotFoundException
 import org.springframework.hateoas.EntityModel
 import java.util.stream.Collectors
 import java.util.stream.Stream
 import javax.persistence.*
 
+@JsonIgnoreProperties("link")
 @Entity
 @Table(name = "linksContainers")
 class LinksContainer() {
@@ -37,14 +41,28 @@ class LinksContainer() {
 
     fun getLinks(): MutableList<EntityModel<Link>> {
         val assembler = LinkAssembler()
-        if(this.links != null) {
+        if (this.links != null) {
             return this.links!!.stream().map(assembler::toModel)?.collect(Collectors.toList())!!
         }
         return mutableListOf()
 
     }
 
-    fun setLinks(links: Set<Link>?){
+    @JsonIgnore
+    fun getLink(id: Int): Link {
+        val links: MutableList<Link>? = this.links?.stream()?.collect(Collectors.toList())
+        if (links != null) {
+            if (links.size <= id) {
+                throw LinkNotFoundException(id)
+            }
+            else{
+                return links[id]
+            }
+        }
+        throw LinkNotFoundException(id)
+    }
+
+    fun setLinks(links: Set<Link>?) {
         this.links = links
     }
 

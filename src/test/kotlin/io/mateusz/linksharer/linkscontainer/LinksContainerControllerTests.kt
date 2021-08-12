@@ -1,7 +1,10 @@
 package io.mateusz.linksharer.linkscontainer
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.mateusz.linksharer.CollectionModelLinks
 import io.mateusz.linksharer.Endpoints
+import io.mateusz.linksharer.EntityModelContainer
+import io.mateusz.linksharer.EntityModelLink
 import io.mateusz.linksharer.link.Link
 import io.mateusz.linksharer.link.LinkService
 import org.assertj.core.api.Assertions.assertThat
@@ -17,9 +20,7 @@ import org.springframework.hateoas.IanaLinkRelations
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
-
-class EntityModelContainer : EntityModel<LinksContainer>()
-class CollectionModelLinks : CollectionModel<EntityModel<Link>>()
+import java.util.stream.Collectors
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class LinksContainerControllerTests {
@@ -76,9 +77,27 @@ class LinksContainerControllerTests {
     fun `get links in container`(){
         val container = linksContainerService.createLinksContainer(LinksContainer("title", "description"))
         val link = linkService.createLink(Link("test", "test", container))
-        val response = restTemplate.getForObject("${this.getUrl()}/link", CollectionModelLinks::class.java)
+        val response = restTemplate.getForObject("${this.getUrl()}/${container.id}/link", CollectionModelLinks::class.java)
         assertThat(response.content).isNotNull
-        response.content.stream().map { assertThat(it.content).isEqualTo(link) }
+        val links = response.content.stream().collect(Collectors.toList())
+        try{
+            assertThat(links[0].content).isEqualTo(link)
+        }
+        catch (exception: IndexOutOfBoundsException){
+            throw exception
+        }
+        linkService.deleteLink(link)
+        linksContainerService.deleteLinksContainer(container)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun `get link in container by id`(){
+        val container = linksContainerService.createLinksContainer(LinksContainer("title", "description"))
+        val link = linkService.createLink(Link("test", "test", container))
+        val response = restTemplate.getForObject("${this.getUrl()}/${container.id}/link/0", EntityModelLink::class.java)
+        assertThat(response.content).isNotNull
+        assertThat(response.content).isEqualTo(link)
         linkService.deleteLink(link)
         linksContainerService.deleteLinksContainer(container)
     }
