@@ -2,6 +2,7 @@ package io.mateusz.linksharer.linkscontainer
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.mateusz.linksharer.Endpoints
+import io.mateusz.linksharer.link.Link
 import io.mateusz.linksharer.link.LinkService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 
 class EntityModelContainer : EntityModel<LinksContainer>()
+class CollectionModelLinks : CollectionModel<EntityModel<Link>>()
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class LinksContainerControllerTests {
@@ -30,6 +32,9 @@ class LinksContainerControllerTests {
 
     @Autowired
     private lateinit var linksContainerService: LinksContainerService
+
+    @Autowired
+    private lateinit var linkService: LinkService
 
 
     @Test
@@ -66,6 +71,18 @@ class LinksContainerControllerTests {
         assertThat(response.links.getLink(IanaLinkRelations.SELF)).isNotNull
     }
 
+    @Test
+    @Throws(Exception::class)
+    fun `get links in container`(){
+        val container = linksContainerService.createLinksContainer(LinksContainer("title", "description"))
+        val link = linkService.createLink(Link("test", "test", container))
+        val response = restTemplate.getForObject("${this.getUrl()}/link", CollectionModelLinks::class.java)
+        assertThat(response.content).isNotNull
+        response.content.stream().map { assertThat(it.content).isEqualTo(link) }
+        linkService.deleteLink(link)
+        linksContainerService.deleteLinksContainer(container)
+    }
+
     private fun assertContainers(originalContainer: LinksContainer, response: EntityModelContainer) {
         assertThat(response).isNotNull
         assertThat(response.content?.title).isEqualTo(originalContainer.title)
@@ -75,6 +92,7 @@ class LinksContainerControllerTests {
 
     private fun assertContainersLinks(container: EntityModel<*>){
         assertThat(container.links.getLink(IanaLinkRelations.SELF)).isNotNull
+        assertThat(container.links.getLink("links")).isNotNull
         assertThat(container.links.getLink("all")).isNotNull
     }
 

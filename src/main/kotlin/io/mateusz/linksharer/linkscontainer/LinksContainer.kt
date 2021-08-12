@@ -22,7 +22,7 @@ class LinksContainer() {
     var description: String = ""
 
     @OneToMany(mappedBy = "linksContainer", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    private var links: Set<Link>? = null
+    private var links: Set<Link>? = setOf()
 
     constructor(title: String, description: String, links: Set<Link>) : this() {
         this.title = title
@@ -35,9 +35,13 @@ class LinksContainer() {
         this.description = description
     }
 
-    fun getLinks(): List<EntityModel<Link>>? {
+    fun getLinks(): MutableList<EntityModel<Link>> {
         val assembler = LinkAssembler()
-        return this.links?.stream()?.map(assembler::toModel)?.collect(Collectors.toList())
+        if(this.links != null) {
+            return this.links!!.stream().map(assembler::toModel)?.collect(Collectors.toList())!!
+        }
+        return mutableListOf()
+
     }
 
     fun setLinks(links: Set<Link>?){

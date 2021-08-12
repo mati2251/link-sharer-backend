@@ -27,13 +27,4 @@ class LinkTests {
         link.setLinksContainer(linksContainer)
         assertThat(link.getLinksContainer().content).isEqualTo(linksContainer)
     }
-
-//    @Test
-//    @Throws(Exception::class)
-//    fun getContainerId(){
-//        val link = Link("test", "test")
-//        val linksContainer = LinksContainer("test", "test")
-//        link.setLinksContainer(linksContainer)
-//        assertThat(link.getContainerId()).isEqualTo(linksContainer.id)
-//    }
 }

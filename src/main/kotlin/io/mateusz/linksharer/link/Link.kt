@@ -45,9 +45,9 @@ class Link {
         this.linksContainer = linksContainer
     }
 
-//    fun getContainerId(): Long {
-//        return this.linksContainer.id
-//    }
+    fun getContainerId(): Long {
+        return this.linksContainer.id
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
