@@ -43,19 +43,19 @@ class LinksContainerController {
         return assembler.toResponseEntity(service.createLinksContainer(linksContainer))
     }
 
-    @GetMapping("/{id}/link")
+    @GetMapping("/{id}/${Endpoints.ADD_LINK_PATH}")
     fun getLinks(@PathVariable id: Long): CollectionModel<EntityModel<Link>> {
         val container: LinksContainer = this.service.getLinksContainer(id)
         return assembler.toModel(container.getLinks(), id)
     }
 
-    @GetMapping("/{id}/link/{linkId}")
+    @GetMapping("/{id}/${Endpoints.ADD_LINK_PATH}/{linkId}")
     fun getLinks(@PathVariable id: Long, @PathVariable linkId: Int): EntityModel<Link> {
         val container: LinksContainer = this.service.getLinksContainer(id)
         return linkAssembler.toModel(container.getLink(linkId))
     }
 
-    @PostMapping("/{id}/link")
+    @PostMapping("/{id}/${Endpoints.ADD_LINK_PATH}")
     fun getLinks(@PathVariable id: Long, @RequestBody link: Link): ResponseEntity<EntityModel<Link>> {
         val newLink = linkService.createLink(link, id)
         return linkAssembler.toResponseEntity(newLink)

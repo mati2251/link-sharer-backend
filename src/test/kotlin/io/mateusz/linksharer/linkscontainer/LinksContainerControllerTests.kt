@@ -78,7 +78,7 @@ class LinksContainerControllerTests {
         val container = linksContainerService.createLinksContainer(LinksContainer("title", "description"))
         val link = linkService.createLink(Link("test", "test", container))
         val response =
-            restTemplate.getForObject("${this.getUrl()}/${container.id}/link", CollectionModelLinks::class.java)
+            restTemplate.getForObject("${this.getUrl()}/${container.id}/${Endpoints.ADD_LINK_PATH}", CollectionModelLinks::class.java)
         assertThat(response.content).isNotNull
         val links = response.content.stream().collect(Collectors.toList())
         try {
@@ -95,7 +95,7 @@ class LinksContainerControllerTests {
     fun `get link in container by id`() {
         val container = linksContainerService.createLinksContainer(LinksContainer("title", "description"))
         val link = linkService.createLink(Link("test", "test", container))
-        val response = restTemplate.getForObject("${this.getUrl()}/${container.id}/link/0", EntityModelLink::class.java)
+        val response = restTemplate.getForObject("${this.getUrl()}/${container.id}/${Endpoints.ADD_LINK_PATH}/0", EntityModelLink::class.java)
         assertThat(response.content).isNotNull
         assertThat(response.content).isEqualTo(link)
         linkService.deleteLink(link)
@@ -112,7 +112,7 @@ class LinksContainerControllerTests {
         headers.contentType = MediaType.APPLICATION_JSON
         val request = HttpEntity(json, headers)
         val response: EntityModelLink =
-            restTemplate.postForObject("${this.getUrl()}/${container.id}/link", request, EntityModelLink::class)!!
+            restTemplate.postForObject("${this.getUrl()}/${container.id}/${Endpoints.ADD_LINK_PATH}", request, EntityModelLink::class)!!
         assertThat(response.content!!.title).isEqualTo(link.title)
         assertThat(response.content!!.url).isEqualTo(link.url)
         linkService.deleteLink(response.content!!.id)
