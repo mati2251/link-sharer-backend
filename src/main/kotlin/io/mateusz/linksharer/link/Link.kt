@@ -1,10 +1,12 @@
 package io.mateusz.linksharer.link
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.mateusz.linksharer.linkscontainer.LinksContainer
 import io.mateusz.linksharer.linkscontainer.LinksContainerAssembler
 import org.springframework.hateoas.EntityModel
 import javax.persistence.*
 
+@JsonIgnoreProperties("linksContainer")
 @Entity
 @Table(name = "Link")
 class Link {

@@ -3,6 +3,7 @@ package io.mateusz.linksharer.linkscontainer
 import io.mateusz.linksharer.Endpoints
 import io.mateusz.linksharer.link.Link
 import io.mateusz.linksharer.link.LinkAssembler
+import io.mateusz.linksharer.link.LinkService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.EntityModel
@@ -21,6 +22,9 @@ class LinksContainerController {
 
     @Autowired
     private lateinit var linkAssembler: LinkAssembler
+
+    @Autowired
+    private lateinit var linkService: LinkService
 
     @GetMapping
     fun getLinksContainers(): CollectionModel<EntityModel<LinksContainer>> {
@@ -51,9 +55,9 @@ class LinksContainerController {
         return linkAssembler.toModel(container.getLink(linkId))
     }
 
-//    @GetMapping("/{id}/link")
-//    fun getLinks(@PathVariable id: Long): CollectionModel<EntityModel<Link>> {
-//        val container: LinksContainer = this.service.getLinksContainer(id)
-//        return assembler.toModel(container.getLinks(), id)
-//    }
+    @PostMapping("/{id}/link")
+    fun getLinks(@PathVariable id: Long, @RequestBody link: Link): ResponseEntity<EntityModel<Link>> {
+        val newLink = linkService.createLink(link, id)
+        return linkAssembler.toResponseEntity(newLink)
+    }
 }

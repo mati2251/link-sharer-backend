@@ -25,7 +25,7 @@ class LinksContainerTests {
         val linksContainer = LinksContainer("test", "test")
         assertThat(linksContainer.getLinks()).isNotNull
         linksContainer.setLinks(setOf(link))
-        assertThat(linksContainer.getLinks()?.get(0)?.content).isEqualTo(link)
+        assertThat(linksContainer.getLinks().get(0).content).isEqualTo(link)
     }
 
 }

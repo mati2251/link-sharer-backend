@@ -3,8 +3,10 @@ package io.mateusz.linksharer.link
 import io.mateusz.linksharer.linkscontainer.LinksContainerController
 import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.EntityModel
+import org.springframework.hateoas.IanaLinkRelations
 import org.springframework.hateoas.server.RepresentationModelAssembler
 import org.springframework.hateoas.server.mvc.linkTo
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import java.util.stream.Collectors
 
@@ -23,6 +25,11 @@ class LinkAssembler : RepresentationModelAssembler<Link, EntityModel<Link>> {
     fun toCollection(links: List<Link>): CollectionModel<EntityModel<Link>> {
         val linksList = links.stream().map(this::toModel).collect(Collectors.toList())
         return CollectionModel.of(linksList, linkTo<LinkController> { getLinks() }.withSelfRel())
+    }
+
+    fun toResponseEntity(link: Link): ResponseEntity<EntityModel<Link>> {
+        val entityModel = this.toModel(link)
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel)
     }
 
 }
