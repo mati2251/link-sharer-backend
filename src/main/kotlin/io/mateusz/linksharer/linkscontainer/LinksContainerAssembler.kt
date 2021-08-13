@@ -18,7 +18,8 @@ class LinksContainerAssembler : RepresentationModelAssembler<LinksContainer, Ent
             linksContainer,
             linkTo<LinksContainerController> { getLinksContainers() }.withRel("all"),
             linkTo<LinksContainerController> { getLinks(linksContainer.id) }.withRel("links"),
-            linkTo<LinksContainerController> { getLinksContainer(linksContainer.id) }.withSelfRel()
+            linkTo<LinksContainerController> { createLink(linksContainer.id, Link("", "")) }.withRel("newLink"),
+            linkTo<LinksContainerController> { getLinkContainer(linksContainer.id) }.withSelfRel()
         )
     }
 
@@ -26,7 +27,7 @@ class LinksContainerAssembler : RepresentationModelAssembler<LinksContainer, Ent
         return CollectionModel.of(
             links,
             linkTo<LinksContainerController> { getLinksContainers() }.withRel("containers"),
-            linkTo<LinksContainerController> { getLinksContainer(id) }.withRel("container"),
+            linkTo<LinksContainerController> { getLinkContainer(id) }.withRel("container"),
             linkTo<LinkController> { getLinks() }.withRel("all"),
             linkTo<LinksContainerController> { getLinks(id) }.withSelfRel()
         )

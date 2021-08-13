@@ -16,9 +16,9 @@ class LinkAssembler : RepresentationModelAssembler<Link, EntityModel<Link>> {
         return EntityModel.of(
             link,
             linkTo<LinkController> { getLinks() }.withRel("all"),
-            linkTo<LinksContainerController> { getLinksContainer(link.getContainerId()) }.withRel("container"),
+            linkTo<LinksContainerController> { getLinkContainer(link.getContainerId()) }.withRel("container"),
             linkTo<LinksContainerController> { getLinks(link.getContainerId()) }.withRel("containerLinks"),
-            linkTo<LinkController> { getLinksById(link.id) }.withSelfRel(),
+            linkTo<LinkController> { getLinkById(link.id) }.withSelfRel(),
             )
     }
 

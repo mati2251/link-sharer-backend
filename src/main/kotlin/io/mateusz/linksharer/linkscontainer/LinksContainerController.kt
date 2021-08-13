@@ -26,37 +26,68 @@ class LinksContainerController {
     @Autowired
     private lateinit var linkService: LinkService
 
+    /**
+     * getLinksContainer gets all containers
+     * @return CollectionModel<EntityModel<LinksContainer>>
+     */
     @GetMapping
     fun getLinksContainers(): CollectionModel<EntityModel<LinksContainer>> {
         val containers = this.service.getLinksContainers()
         return assembler.toCollection(containers)
     }
 
+    /**
+     * getLinkContainer gets one container
+     * @param id the id of container we want to get
+     * @return EntityModel<LinksContainer>
+     */
     @GetMapping("/{id}")
-    fun getLinksContainer(@PathVariable id: Long): EntityModel<LinksContainer> {
+    fun getLinkContainer(@PathVariable id: Long): EntityModel<LinksContainer> {
         val container = this.service.getLinksContainer(id)
         return this.assembler.toModel(container)
     }
 
+    /**
+     * createLinksContainer create new links container
+     * @param linksContainer this is new LinksContainer which we want to create
+     * @return ResponseEntity<EntityModel<LinksContainer>>
+     */
     @PostMapping
     fun createLinksContainer(@RequestBody linksContainer: LinksContainer): ResponseEntity<EntityModel<LinksContainer>> {
         return assembler.toResponseEntity(service.createLinksContainer(linksContainer))
     }
 
+    /**
+     * getLinks get all links in specific container
+     * @param id the id of container we want to get 
+     * @return CollectionModel<EntityModel<Link>>
+     */
     @GetMapping("/{id}/${Endpoints.ADD_LINK_PATH}")
     fun getLinks(@PathVariable id: Long): CollectionModel<EntityModel<Link>> {
         val container: LinksContainer = this.service.getLinksContainer(id)
         return assembler.toModel(container.getLinks(), id)
     }
 
+    /**
+     * getLinks get one specific link in specific container
+     * @param id the id of container
+     * @param linkId the id of link in container, that not is id in database but is id in order in container array
+     * @return EntityModel<Link>
+     */
     @GetMapping("/{id}/${Endpoints.ADD_LINK_PATH}/{linkId}")
-    fun getLinks(@PathVariable id: Long, @PathVariable linkId: Int): EntityModel<Link> {
+    fun getLink(@PathVariable id: Long, @PathVariable linkId: Int): EntityModel<Link> {
         val container: LinksContainer = this.service.getLinksContainer(id)
         return linkAssembler.toModel(container.getLink(linkId))
     }
 
+    /**
+     * createLink create new link in specific container
+     * @param id the id of container
+     * @param link this is new link which we want to create
+     * @return ResponseEntity<EntityModel<Link>>
+     */
     @PostMapping("/{id}/${Endpoints.ADD_LINK_PATH}")
-    fun getLinks(@PathVariable id: Long, @RequestBody link: Link): ResponseEntity<EntityModel<Link>> {
+    fun createLink(@PathVariable id: Long, @RequestBody link: Link): ResponseEntity<EntityModel<Link>> {
         val newLink = linkService.createLink(link, id)
         return linkAssembler.toResponseEntity(newLink)
     }
